@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     get '/images' => 'images#index'
     get '/tags'   => 'tags#index'
     get '/images/query' => 'images#query'
+    get '/images/advanced' => 'images#advanced_query'
     get '/images/:id' => 'images#show'
     # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

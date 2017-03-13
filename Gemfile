@@ -9,6 +9,10 @@ gem 'mysql2'
 
 gem 'rack-cors', require: 'rack/cors'
 
+gem 'fuzzily'
+
+gem 'active_record_union'
+
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets

@@ -10,17 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161211225208) do
+ActiveRecord::Schema.define(version: 20170313091341) do
+
+  create_table "emuobjects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "irn",                       null: false
+    t.text     "description", limit: 65535
+    t.text     "title",       limit: 65535
+    t.text     "taxonomy",    limit: 65535
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  create_table "emuobjects_images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "emuobject_id"
+    t.integer  "image_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["emuobject_id"], name: "index_emuobjects_images_on_emuobject_id", using: :btree
+    t.index ["image_id"], name: "index_emuobjects_images_on_image_id", using: :btree
+  end
 
   create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "title"
-    t.string   "description"
-    t.integer  "media_id"
-    t.string   "creator"
-    t.string   "format"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["media_id"], name: "index_images_on_media_id", unique: true, using: :btree
+    t.string   "mimeformat"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.text     "description", limit: 65535
+    t.text     "title",       limit: 65535
+    t.integer  "irn"
+    t.text     "notes",       limit: 65535
+    t.string   "mimetype"
+    t.datetime "inserted_at"
+    t.text     "subjects",    limit: 65535
+    t.string   "department"
   end
 
   create_table "images_tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -36,6 +57,16 @@ ActiveRecord::Schema.define(version: 20161211225208) do
     t.string   "tag_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "trigrams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string  "trigram",     limit: 3
+    t.integer "score",       limit: 2
+    t.integer "owner_id"
+    t.string  "owner_type"
+    t.string  "fuzzy_field"
+    t.index ["owner_id", "owner_type", "fuzzy_field", "trigram", "score"], name: "index_for_match", using: :btree
+    t.index ["owner_id", "owner_type"], name: "index_by_owner", using: :btree
   end
 
 end

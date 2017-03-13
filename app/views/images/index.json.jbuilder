@@ -1,5 +1,6 @@
 json.array! @images do |image|
-  json.id image.id
-  json.description image.description
-  json.media_id image.media_id
+    json.id image.id
+    json.media_id image.irn
+    json.mimeformat image.mimeformat
+    json.title image.title
 end
