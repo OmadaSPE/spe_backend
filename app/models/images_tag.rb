@@ -1,0 +1,3 @@
+class ImagesTag < ApplicationRecord
+
+end

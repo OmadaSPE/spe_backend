@@ -55,8 +55,34 @@ namespace :task do
     end
 
     desc "Import Relationships from csv"
-    task test_data: :environment do
-        puts Image.where(mimeformat: 'tiff').count
+    task deltags: :environment do
+        Trigram.all.delete_all
+    end
+
+    desc "Import Relationships from csv"
+    task test: :environment do
+        #puts Image.joins(:tags).where("tag_name = ?", 'photograph').as_json
+        puts Image.joins(:images_tags).where("tag_id IN (?)", Tag.find_by_fuzzy_tag_name('photograph').map { |e| e.id }).as_json
+    end
+
+    desc "Sandbox"
+    task try: :environment do
+        tags = {}
+        Tag.all.each { |e| tags[e.tag_name] = e }
+        puts tags
+        CSV.foreach("/Users/oskarb/Documents/uni/spe/spe_backend/lib/tasks/objects_database.csv", headers: true, encoding:'iso-8859-1:utf-8') do |row|
+            tag_name = row["simple name"]
+            tag = nil
+            if tags.key? row["simple name"]
+                tag = tags[tag_name]
+            else
+                tag = Tag.create!({tag_name: tag_name})
+                tags[tag_name] = tag
+            end
+            Image.joins(:emuobjects).where("emuobjects.irn = ?", row["irn"]).each do |i|
+                i.tags << tag
+            end
+        end
     end
 
 end

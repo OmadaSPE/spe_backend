@@ -10,13 +10,16 @@ class ImagesController < ApplicationController
     end
 
     def query
-        @images = Image.basic_search(params[:q])
+        page = 0
+        page = params[:page].to_i if(params[:page])
+        @images = Image.basic_search(params[:q], page)
         render('images/index.json')
     end
 
     def advanced_query
-        puts params.to_unsafe_hash
-        @images = Image.advanced_search(params.to_unsafe_hash)
+        page = 0
+        page = params[:page].to_i if(params[:page])
+        @images = Image.advanced_search(params.to_unsafe_hash, page)
         render('images/index.json')
     end
 end
