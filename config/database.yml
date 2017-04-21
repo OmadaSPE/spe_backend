@@ -41,9 +41,4 @@ test:
    port: 8889
 
 production:
-   adapter: mysql2://b3a50c648cc12b:e4ebffdb@eu-cdbr-west-01.cleardb.com/heroku_6f782f6a9ae6799?reconnect=true
-   database: spe_production
-   username: root
-   password: root
-   host: 127.0.0.1
-   port: 8889
+   adapter: mysql2
